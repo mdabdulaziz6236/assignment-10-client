@@ -16,7 +16,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const handleForgetPassword = () => {
     localStorage.setItem("forgetEmail", email); // email save
-    navigate("/forgetPassword");
+    navigate("/resetPassword");
   };
 
   const handleTogglePasswordShow = (event) => {
