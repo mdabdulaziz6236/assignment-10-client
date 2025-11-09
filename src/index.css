@@ -1,2 +1,10 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+
+.navbar .active {
+  color: dodgerblue;
+  font-weight: bold;
+  text-decoration: underline ;
+
+}

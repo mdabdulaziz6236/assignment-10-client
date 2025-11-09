@@ -5,10 +5,10 @@ import Footer from "../Components/Footer";
 import { Toaster } from "react-hot-toast";
 
 const MainLayout = () => {
-  return <div>
+  return <div className="max-w-11/12 mx-auto">
 
     <Navbar></Navbar>
-    <div>
+    <div className="min-h-screen">
         <Outlet></Outlet>
     </div>
     <Footer></Footer>
