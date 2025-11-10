@@ -1,5 +1,6 @@
 import React, { use, useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
+import { ImProfile } from "react-icons/im";
 import { AuthContext } from "../Context/AuthContext";
 import toast from "react-hot-toast";
 
@@ -14,12 +15,19 @@ const Navbar = () => {
   }, [theme]);
   const links = (
     <>
+     {user?<>
       <li>
         <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <NavLink to="/register">Register</NavLink>
+        <NavLink to="/profile">My Profile</NavLink>
       </li>
+     </>:<> <li>
+        <NavLink to="/">Home</NavLink>
+      </li>
+      <li>
+        <NavLink to="/register">Register</NavLink>
+      </li></>}
     </>
   );
   const handleLogOut = () => {
@@ -96,7 +104,7 @@ const Navbar = () => {
                 <li className="text-xs">{user.email}</li>
               </div>
               <li className="mt-3">
-                <Link to={"/profile"}>Profile</Link>
+                <Link  to={"/profile"}><ImProfile className="text-[20px]"/> Profile</Link>
               </li>
               <div className="p-2">
                 <input
