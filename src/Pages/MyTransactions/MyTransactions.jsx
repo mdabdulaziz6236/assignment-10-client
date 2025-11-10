@@ -109,7 +109,7 @@ const MyTransactions = () => {
 
                 <div className="flex justify-end items-center gap-5 border-t bg-gray-50 px-5 py-1.5 rounded-b-lg">
                   <Link
-                    to={`/transaction/${transaction._id}`}
+                    to={`/transactionDetails/${transaction._id}`}
                     className="text-blue-500 hover:text-blue-700 transition-colors"
                     title="View Details"
                   >
