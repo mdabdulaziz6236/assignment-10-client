@@ -6,6 +6,9 @@ import Login from "../Pages/Auth/Login";
 import ResetPassword from "../Pages/Auth/ResetPassword";
 import Profile from "../Pages/Profile/Profile";
 import UpdateProfile from "../Pages/Profile/UpdateProfile";
+import AddTransaction from "../Pages/AddTransaction/AddTransaction";
+import MyTransactions from "../Pages/MyTransactions/MyTransactions";
+import Reports from "../Pages/Reports/Reports";
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +38,18 @@ export const router = createBrowserRouter([
       {
         path: "/update-profile",
         Component: UpdateProfile,
+      },
+      {
+        path: "/add-transaction",
+        Component: AddTransaction,
+      },
+      {
+        path: "/my-transaction",
+        Component: MyTransactions,
+      },
+      {
+        path: "/reports",
+        Component: Reports,
       },
     ],
   },

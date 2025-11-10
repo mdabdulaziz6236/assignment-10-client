@@ -22,6 +22,15 @@ const Navbar = () => {
       <li>
         <NavLink to="/profile">My Profile</NavLink>
       </li>
+      <li>
+        <NavLink to="/add-transaction">Add Transaction</NavLink>
+      </li>
+      <li>
+        <NavLink to="/my-transaction">My Transaction</NavLink>
+      </li>
+      <li>
+        <NavLink to="/reports">Reports</NavLink>
+      </li>
      </>:<> <li>
         <NavLink to="/">Home</NavLink>
       </li>
