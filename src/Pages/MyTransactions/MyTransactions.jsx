@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import { Link } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import Loading from "../Loading/Loading";
+import Swal from "sweetalert2";
 
 const MyTransactions = () => {
   const { user } = useContext(AuthContext);
@@ -35,7 +36,41 @@ const MyTransactions = () => {
         setLoading(false);
       });
   }, [user]);
-
+  /* handle delete */
+const handleDelete = (id) => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You want to delete this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`http://localhost:3000/transaction/${id}`, {
+        method: "DELETE",
+        headers: {
+          authorization: `Bearer ${user?.accessToken}`,
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.message === "Transaction deleted successfully") {
+            setTransactions(prev => prev.filter(t => t._id !== id));
+            Swal.fire({
+              title: "Deleted!",
+              text: "Transaction has been deleted.",
+              icon: "success"
+            });
+          }
+        })
+        .catch(err => {
+          Swal.fire("Error!", err.message, "error");
+        });
+    }
+  });
+};
   if (loading) {
     return <Loading></Loading>
   }
@@ -122,13 +157,12 @@ const MyTransactions = () => {
                   >
                     <FaEdit size={18} />
                   </Link>
-                  <Link
-                    to={`/transaction/${transaction._id}`}
+                  <button onClick={() => handleDelete(transaction._id)}
                     className="text-red-500 hover:text-red-700 transition-colors"
                     title="Delete"
                   >
                     <MdDelete size={18} />
-                  </Link>
+                  </button>
                 </div>
               </div>
             ))}
