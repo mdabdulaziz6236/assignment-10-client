@@ -10,6 +10,7 @@ import AddTransaction from "../Pages/AddTransaction/AddTransaction";
 import MyTransactions from "../Pages/MyTransactions/MyTransactions";
 import Reports from "../Pages/Reports/Reports";
 import TransactionDetails from "../Pages/TransactionDetails/TransactionDetails";
+import UpdateTransaction from "../Pages/UpdateTransaction/UpdateTransaction";
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: "/transactionDetails/:id",
         Component: TransactionDetails,
+      },
+      {
+        path: "/update-transaction/:id",
+        Component: UpdateTransaction,
       },
     ],
   },

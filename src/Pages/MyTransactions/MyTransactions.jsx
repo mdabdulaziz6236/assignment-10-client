@@ -13,8 +13,8 @@ const MyTransactions = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if(!user){
-      return
+    if (!user) {
+      return;
     }
     setLoading(true);
     fetch(`http://localhost:3000/my-transactions?email=${user?.email}`, {
@@ -37,42 +37,42 @@ const MyTransactions = () => {
       });
   }, [user]);
   /* handle delete */
-const handleDelete = (id) => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You want to delete this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, delete it!"
-  }).then((result) => {
-    if (result.isConfirmed) {
-      fetch(`http://localhost:3000/transaction/${id}`, {
-        method: "DELETE",
-        headers: {
-          authorization: `Bearer ${user?.accessToken}`,
-        },
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.message === "Transaction deleted successfully") {
-            setTransactions(prev => prev.filter(t => t._id !== id));
-            Swal.fire({
-              title: "Deleted!",
-              text: "Transaction has been deleted.",
-              icon: "success"
-            });
-          }
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:3000/transaction/${id}`, {
+          method: "DELETE",
+          headers: {
+            authorization: `Bearer ${user?.accessToken}`,
+          },
         })
-        .catch(err => {
-          Swal.fire("Error!", err.message, "error");
-        });
-    }
-  });
-};
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.message === "Transaction deleted successfully") {
+              setTransactions((prev) => prev.filter((t) => t._id !== id));
+              Swal.fire({
+                title: "Deleted!",
+                text: "Transaction has been deleted.",
+                icon: "success",
+              });
+            }
+          })
+          .catch((err) => {
+            Swal.fire("Error!", err.message, "error");
+          });
+      }
+    });
+  };
   if (loading) {
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
 
   return (
@@ -151,13 +151,15 @@ const handleDelete = (id) => {
                     <FaEye size={18} />
                   </Link>
                   <Link
-                    to={`/transaction/update/${transaction._id}`}
+                    to={`/update-transaction/${transaction._id}`}
+                    state={{ transaction }}
                     className="text-yellow-500 hover:text-yellow-700 transition-colors"
                     title="Update"
                   >
                     <FaEdit size={18} />
                   </Link>
-                  <button onClick={() => handleDelete(transaction._id)}
+                  <button
+                    onClick={() => handleDelete(transaction._id)}
                     className="text-red-500 hover:text-red-700 transition-colors"
                     title="Delete"
                   >
