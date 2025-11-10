@@ -151,7 +151,7 @@ const MyTransactions = () => {
                     <FaEye size={18} />
                   </Link>
                   <Link
-                    to={`/update-transaction/${transaction._id}`}
+                    to={`/transaction/update/${transaction._id}`}
                     state={{ transaction }}
                     className="text-yellow-500 hover:text-yellow-700 transition-colors"
                     title="Update"

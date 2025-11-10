@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
         Component: TransactionDetails,
       },
       {
-        path: "/update-transaction/:id",
+        path: "/transaction/update/:id",
         Component: UpdateTransaction,
       },
     ],
