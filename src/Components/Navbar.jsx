@@ -15,28 +15,35 @@ const Navbar = () => {
   }, [theme]);
   const links = (
     <>
-     {user?<>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-      <li>
-        <NavLink to="/profile">My Profile</NavLink>
-      </li>
-      <li>
-        <NavLink to="/add-transaction">Add Transaction</NavLink>
-      </li>
-      <li>
-        <NavLink to="/my-transaction">My Transaction</NavLink>
-      </li>
-      <li>
-        <NavLink to="/reports">Reports</NavLink>
-      </li>
-     </>:<> <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-      <li>
-        <NavLink to="/register">Register</NavLink>
-      </li></>}
+      {user ? (
+        <>
+          <li>
+            <NavLink to="/">Home</NavLink>
+          </li>
+          <li>
+            <NavLink to="/profile">My Profile</NavLink>
+          </li>
+          <li>
+            <NavLink to="/add-transaction">Add Transaction</NavLink>
+          </li>
+          <li>
+            <NavLink to="/my-transaction">My Transaction</NavLink>
+          </li>
+          <li>
+            <NavLink to="/reports">Reports</NavLink>
+          </li>
+        </>
+      ) : (
+        <>
+          {" "}
+          <li>
+            <NavLink to="/">Home</NavLink>
+          </li>
+          <li>
+            <NavLink to="/register">Register</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
   const handleLogOut = () => {
@@ -113,7 +120,9 @@ const Navbar = () => {
                 <li className="text-xs">{user.email}</li>
               </div>
               <li className="mt-3">
-                <Link  to={"/profile"}><ImProfile className="text-[20px]"/> Profile</Link>
+                <Link to={"/profile"}>
+                  <ImProfile className="text-[20px]" /> Profile
+                </Link>
               </li>
               <div className="p-2">
                 <input
@@ -134,10 +143,7 @@ const Navbar = () => {
             </ul>
           </div>
         ) : (
-          <Link
-            to={"/login"}
-            className="btn rounded btn-primary text-white"
-          >
+          <Link to={"/login"} className="btn rounded btn-primary text-white">
             {" "}
             Login
           </Link>
