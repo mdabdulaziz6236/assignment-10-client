@@ -16,12 +16,15 @@ const TransactionDetails = () => {
       return;
     }
     setLoading(true);
-    fetch(`http://localhost:3000/transaction/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.accessToken}`,
-      },
-    })
+    fetch(
+      `https://assignment-10-server-kappa-one.vercel.app/transaction/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.accessToken}`,
+        },
+      }
+    )
       .then((res) => {
         return res.json();
       })

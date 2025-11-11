@@ -93,7 +93,7 @@ const Reports = () => {
     (async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/my-transactions?email=${user.email}`,
+          `https://assignment-10-server-kappa-one.vercel.app/my-transactions?email=${user.email}`,
           { headers: { authorization: `Bearer ${user.accessToken}` } }
         );
         if (!res.ok) throw new Error("Failed to fetch transactions");

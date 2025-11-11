@@ -15,12 +15,15 @@ const MyTransactions = () => {
   useEffect(() => {
     if (!user) return;
     setLoading(true);
-    fetch(`http://localhost:3000/my-transactions?email=${user?.email}`, {
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${user?.accessToken}`,
-      },
-    })
+    fetch(
+      `https://assignment-10-server-kappa-one.vercel.app/my-transactions?email=${user?.email}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${user?.accessToken}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => setTransactions(data))
       .catch((err) => toast.error(`${err.message}`))
@@ -38,10 +41,13 @@ const MyTransactions = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/transaction/${id}`, {
-          method: "DELETE",
-          headers: { authorization: `Bearer ${user?.accessToken}` },
-        })
+        fetch(
+          `https://assignment-10-server-kappa-one.vercel.app/transaction/${id}`,
+          {
+            method: "DELETE",
+            headers: { authorization: `Bearer ${user?.accessToken}` },
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             if (data.message === "Transaction deleted successfully") {

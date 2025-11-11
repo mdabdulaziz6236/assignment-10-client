@@ -29,7 +29,7 @@ const AddTransaction = () => {
       email,
     };
 
-    fetch("http://localhost:3000/transactions", {
+    fetch("https://assignment-10-server-kappa-one.vercel.app/transactions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

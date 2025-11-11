@@ -1,14 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
-import {FaArrowCircleUp,FaArrowCircleDown,FaChartLine,} from "react-icons/fa";
+import {
+  FaArrowCircleUp,
+  FaArrowCircleDown,
+  FaChartLine,
+} from "react-icons/fa";
 import { AuthContext } from "../../Context/AuthContext";
 import { Link } from "react-router";
 
 const FinancialOverview = () => {
   const { user } = useContext(AuthContext);
-  const [overviewData, setOverviewData] = useState({totalIncome: 0,totalExpense: 0,totalBalance: 0,});
+  const [overviewData, setOverviewData] = useState({
+    totalIncome: 0,
+    totalExpense: 0,
+    totalBalance: 0,
+  });
   useEffect(() => {
     if (user && user.accessToken) {
-      fetch("http://localhost:3000/totalOverview", {
+      fetch("https://assignment-10-server-kappa-one.vercel.app/totalOverview", {
         method: "GET",
         headers: {
           authorization: `Bearer ${user.accessToken}`,
@@ -16,7 +24,7 @@ const FinancialOverview = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
+          console.log(data);
           if (data) {
             setOverviewData(data);
           }

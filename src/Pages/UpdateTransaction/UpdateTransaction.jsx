@@ -30,14 +30,17 @@ const UpdateTransaction = () => {
     };
 
     setLoading(true);
-    fetch(`http://localhost:3000/transaction/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${user.accessToken}`,
-      },
-      body: JSON.stringify(changedData),
-    })
+    fetch(
+      `https://assignment-10-server-kappa-one.vercel.app/transaction/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${user.accessToken}`,
+        },
+        body: JSON.stringify(changedData),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "Transaction updated successfully") {
