@@ -113,7 +113,7 @@ const Reports = () => {
     );
 
   return (
-    <div className="p-4 sm:p-6 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200 min-h-screen">
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200 min-h-screen">
       <h2 className="text-3xl sm:text-4xl font-extrabold mb-8 text-indigo-700 dark:text-cyan-400 text-center sm:text-left">
         Financial Reports
       </h2>

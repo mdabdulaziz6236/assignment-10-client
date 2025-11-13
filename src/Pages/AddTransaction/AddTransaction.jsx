@@ -15,7 +15,7 @@ const AddTransaction = () => {
     const category = form.category.value;
     const amount = parseFloat(form.amount.value);
     const description = form.description.value;
-    const date = form.date.value;
+    const date = new Date(form.date.value);
     const name = user?.displayName;
     const email = user?.email;
 

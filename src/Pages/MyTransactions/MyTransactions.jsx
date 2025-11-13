@@ -11,6 +11,8 @@ const MyTransactions = () => {
   const { user } = useContext(AuthContext);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("all"); // "all", "income", "expense"
+  const [sortBy, setSortBy] = useState("date"); // "date" or "amount"
 
   useEffect(() => {
     if (!user) return;
@@ -61,38 +63,71 @@ const MyTransactions = () => {
   };
 
   if (loading) return <Loading />;
+  const filteredTransactions =
+    filter === "all"
+      ? transactions
+      : transactions.filter((t) => t.type === filter);
+  const sortedTransactions = [...filteredTransactions].sort((a, b) => {
+    if (sortBy === "amount") {
+      return parseFloat(b.amount) - parseFloat(a.amount);
+    } else {
+      return new Date(b.date) - new Date(a.date);
+    }
+  });
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto px-4 py-10 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200">
+    <div className="min-h-screen max-w-7xl mx-auto px-4 py-10 text-gray-900 dark:text-gray-200">
       <title>My Transaction</title>
-      <h2 className="text-3xl sm:text-4xl font-extrabold mb-10 text-center text-indigo-700 dark:text-cyan-400">
+      <h2 className="text-3xl sm:text-4xl font-extrabold mb-6 text-center text-indigo-700 dark:text-cyan-400">
         My Transactions
       </h2>
 
-      {transactions.length === 0 ? (
+      {/* Filter & Sort */}
+      <div className="mb-6 flex justify-end gap-4">
+        <select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200"
+        >
+          <option value="all">All</option>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200"
+        >
+          <option value="date">Sort by Date</option>
+          <option value="amount">Sort by Amount</option>
+        </select>
+      </div>
+
+      {sortedTransactions.length === 0 ? (
         <div
-          className="text-center text-lg p-10 
+          className="text-center text-lg p-8 
                      bg-white dark:bg-gray-800 
-                     rounded-xl shadow-lg border border-gray-200 dark:border-gray-700
+                     rounded-lg shadow-md border border-gray-200 dark:border-gray-700
                      text-gray-600 dark:text-gray-400"
         >
           <p className="text-xl font-semibold mb-3">
-            You have not added any transactions yet.
+            You have no transactions in this category.
           </p>
           <Link
             to="/add-transaction"
             className="text-indigo-600 dark:text-cyan-400 hover:text-indigo-700 dark:hover:text-cyan-300 mt-2 inline-block font-medium underline"
           >
-            Add your first transaction
+            Add a transaction
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {transactions.map((transaction) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {sortedTransactions.map((transaction) => {
             const isIncome = transaction.type === "income";
             const typeColor = isIncome
               ? "text-green-600 dark:text-green-400"
-              : "text-red-600 dark:text-red-400";
+              : "text-red-600 dark:text-pink-500";
             const borderAccent = isIncome
               ? "border-green-500"
               : "border-red-500";
@@ -103,76 +138,66 @@ const MyTransactions = () => {
             return (
               <div
                 key={transaction._id}
-                className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg flex flex-col justify-between 
-                            transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-1 
-                            border border-gray-200 dark:border-gray-700
-                            border-b-4 ${borderAccent}
-                            `}
+                className={`bg-blue-100 dark:bg-gray-800 rounded-lg shadow-sm dark:shadow-base-200 flex flex-col justify-between 
+                            transition-all duration-300 transform hover:shadow-lg hover:-translate-y-0.5
+                             border-gray-200 dark:border-gray-700
+                            border-b-5 ${borderAccent}`}
               >
-                <div className="p-5">
-                  <div className="flex justify-between items-center mb-2">
-                    {/* Type Tag */}
+                <div className="p-3">
+                  <div className="flex justify-between items-center mb-1">
                     <span
-                      className={`px-3 py-1 rounded-full capitalize text-sm font-bold ${bgAccent} ${typeColor} `}
+                      className={`px-2 py-1 rounded-full capitalize text-sm font-bold ${bgAccent} ${typeColor}`}
                     >
                       {transaction.type}
                     </span>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
                       {new Date(transaction.date).toLocaleDateString("en-GB")}
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center mb-2">
-                    {/* Category */}
-                    <h3 className="text-xl font-extrabold capitalize text-gray-800 dark:text-gray-100">
+                  <div className="flex justify-between items-center mb-1">
+                    <h3 className="text-lg font-bold capitalize text-gray-800 dark:text-gray-100">
                       {transaction.category}
                     </h3>
-                    {/* Amount */}
-                    <p className={`text-3xl font-extrabold ${typeColor}`}>
-                      {isIncome ? "+" : "-"}
+                    <p className={`text-2xl font-bold ${typeColor}`}>
                       {parseFloat(transaction.amount).toFixed(2)}
                     </p>
                   </div>
-
-                  {/* Description */}
-                  <p
-                    className="text-gray-600 dark:text-gray-400 text-sm truncate"
+                  <div className="flex justify-between items-center">
+                   <p
+                    className="text-gray-600 flex-1 dark:text-gray-400 text-sm truncate"
                     title={transaction.description}
                   >
-                    {transaction.description || "No description"}
+                    {transaction.description}
                   </p>
-                </div>
-
-                {/* Actions Bar */}
-                <div
-                  className="flex justify-end items-center gap-4 border-t border-gray-200 dark:border-gray-700 
-                              bg-gray-50 dark:bg-gray-900 px-5 py-2.5 rounded-b-xl"
+                   <div
+                  className="flex flex-1  justify-end items-center gap-3 "
                 >
-                  {/* View Details */}
                   <Link
                     to={`/transactionDetails/${transaction._id}`}
                     className="text-indigo-500 dark:text-cyan-400 hover:text-indigo-600 dark:hover:text-cyan-300 transition-colors"
                     title="View Details"
                   >
-                    <FaEye size={20} />
+                    <FaEye size={18} />
                   </Link>
-                  {/* Update */}
                   <Link
                     to={`/transaction/update/${transaction._id}`}
                     state={{ transaction }}
                     className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 dark:hover:text-yellow-300 transition-colors"
                     title="Update"
                   >
-                    <FaEdit size={20} />
+                    <FaEdit size={18} />
                   </Link>
-                  {/* Delete */}
                   <button
                     onClick={() => handleDelete(transaction._id)}
                     className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 transition-colors"
                     title="Delete"
                   >
-                    <MdDelete size={20} />
+                    <MdDelete size={18} />
                   </button>
+                </div>
+                  </div>
+                 
                 </div>
               </div>
             );
